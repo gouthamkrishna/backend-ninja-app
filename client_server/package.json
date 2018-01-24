@@ -9,6 +9,7 @@
     "express": "^4.16.2",
     "mongodb": "^3.0.1",
     "monk": "^6.0.5",
+    "superagent": "^3.8.2"
   },
   "devDependencies": {},
   "scripts": {

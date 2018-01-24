@@ -1,11 +1,9 @@
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongo = require('mongodb');
-var monk = require('monk');
-var app = express();
-var db = monk('localhost:27017/backend-ninja');
-var collection = db.get('usercollection');
+var express = require('express')
+var cookieParser = require('cookie-parser')
+var bodyParser = require('body-parser')
+var mongo = require('mongodb').MongoClient
+var app = express()
+var url = 'mongodb://localhost:27017/backend-ninja'
 
 var server = app.listen(8081, function () {
   var host = server.address().address
@@ -15,7 +13,7 @@ var server = app.listen(8081, function () {
 })
 
 app.get('/', function (req, res) {
-  res.send('Backend Ninja App - Uers Details Server');
+  res.send('Backend Ninja App - Uers Details Server')
 })
 
 app.post('/login_oper', function (req, res) {
@@ -24,13 +22,19 @@ app.post('/login_oper', function (req, res) {
 
 app.post('/signup_oper', function (req, res) {
   // check for existing username and add username, email, firstname, lastname, password to db
-  var username = req.body.username;
-  collection.findOne({username: username}).then((doc) => {
-    if (doc.length !== 0) {
-      // insertion code
-    } else {
-      // username already exists
-    }
+  var username = req.query.username
+  mongo.connect(url, function(err,client) {
+    const db = client.db('backend-ninja')
+    db.collection('usercollection').findOne({username: username},function(err, result) {
+      if (result == null) {
+        // insertion code
+        db.collection('usercollection').insert({'username': req.query.username , 'password': req.query.password})
+        res.send({'response' : 'Signup successfull'})
+      } else {
+        // username already exists
+        res.send({'response' : 'User already exists'})
+      }
+    })
   })
 })
 

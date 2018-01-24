@@ -1,10 +1,10 @@
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongo = require('mongodb');
-var monk = require('monk');
-var app = express();
-var db_user = monk('localhost:27017/backend-ninja');
+var express = require('express')
+var cookieParser = require('cookie-parser')
+var bodyParser = require('body-parser')
+var mongo = require('mongodb')
+var monk = require('monk')
+var app = express()
+var db_user = monk('localhost:27017/backend-ninja')
 
 var server = app.listen(8082, function () {
   var host = server.address().address
@@ -14,7 +14,7 @@ var server = app.listen(8082, function () {
 })
 
 app.get('/', function (req, res) {
-  res.send('Backend Ninja App - Notes Server');
+  res.send('Backend Ninja App - Notes Server')
 })
 
 app.get('/create_note', function (req, res) {
